@@ -1,5 +1,6 @@
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import React from "react";
+import Input from "./input";
 
 type Props = {};
 
@@ -13,7 +14,7 @@ function Feed({}: Props) {
         </div>
       </div>
 
-      {/* <Input /> */}
+      <Input />
       <div className="pb-72">
         {/* {posts.map((post) => (
           <Post key={post.id} id={post.id} post={post.data()} />
