@@ -16,50 +16,58 @@ export default function Home() {
   const [balance, setBalance] = useState("");
 
   const connectWallet = async () => {
-    try {
-      const { ethereum }: any = window;
+    if (typeof window !== "undefined") {
+      try {
+        const { ethereum }: any = window;
 
-      if (!ethereum) {
-        return;
+        if (!ethereum) {
+          return;
+        }
+        let chainId = await ethereum.request({ method: "eth_chainId" });
+
+        const SepoliabyChainId = "0xaa36a7";
+
+        if (chainId !== SepoliabyChainId) {
+          return;
+        }
+
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        setCurrentAccount(accounts[0]);
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const balance = await provider.getBalance(accounts[0]);
+        const balanceInEth = ethers.utils.formatEther(balance);
+        setBalance(balanceInEth);
+
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+
+        console.log("Error connecting to metamask", error);
       }
+    } else {
+      console.log("window is undefined");
+    }
+  };
+
+  const checkCorrectNetwork = async () => {
+    if (typeof window !== "undefined") {
+      const { ethereum }: any = window;
       let chainId = await ethereum.request({ method: "eth_chainId" });
 
       const SepoliabyChainId = "0xaa36a7";
 
       if (chainId !== SepoliabyChainId) {
-        return;
+        setCorrectNetwork(false);
+        setNetworkAlert(false);
+      } else {
+        setCorrectNetwork(true);
+        setNetworkAlert(true);
       }
-
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      setCurrentAccount(accounts[0]);
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const balance = await provider.getBalance(accounts[0]);
-      const balanceInEth = ethers.utils.formatEther(balance);
-      setBalance(balanceInEth);
-
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-
-      console.log("Error connecting to metamask", error);
-    }
-  };
-
-  const checkCorrectNetwork = async () => {
-    const { ethereum }: any = window;
-    let chainId = await ethereum.request({ method: "eth_chainId" });
-
-    const SepoliabyChainId = "0xaa36a7";
-
-    if (chainId !== SepoliabyChainId) {
-      setCorrectNetwork(false);
-      setNetworkAlert(false);
     } else {
-      setCorrectNetwork(true);
-      setNetworkAlert(true);
+      console.log("window is undefined");
     }
   };
 
@@ -82,22 +90,26 @@ export default function Home() {
   }
 
   const connectMetamask = async () => {
-    const { ethereum }: any = window;
+    if (typeof window !== "undefined") {
+      const { ethereum }: any = window;
 
-    if (typeof ethereum !== "undefined") {
-      try {
-        const SepoliabyChainId = "0xaa36a7";
+      if (typeof ethereum !== "undefined") {
+        try {
+          const SepoliabyChainId = "0xaa36a7";
 
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: SepoliabyChainId }],
-        });
+          await ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: SepoliabyChainId }],
+          });
 
-        location.reload();
-      } catch (e) {
-        console.log(e);
+          location.reload();
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
       }
     } else {
+      console.log("window is undefined");
     }
   };
 
