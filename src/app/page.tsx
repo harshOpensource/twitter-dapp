@@ -54,7 +54,7 @@ export default function Home() {
 
   const checkCorrectNetwork = async () => {
     if (typeof window !== "undefined") {
-      const { ethereum }: any = window;
+      const { ethereum } = window;
       let chainId = await ethereum.request({ method: "eth_chainId" });
 
       const SepoliabyChainId = "0xaa36a7";
