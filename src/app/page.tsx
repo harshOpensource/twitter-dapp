@@ -16,30 +16,6 @@ export default function Home() {
   const [networkAlert, setNetworkAlert] = useState(true);
   const [balance, setBalance] = useState("");
 
-  if (!window.ethereum) {
-    return (
-      <div className="h-screen w-screen flex items-center justify-center">
-        <Card>
-          <CardHeader className="text-center font-semibold">Alert</CardHeader>
-          <CardContent>
-            <p>
-              You need to install{" "}
-              <a
-                href="https://metamask.io/download"
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-500"
-              >
-                Metamask
-              </a>
-              to use this app
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   const connectWallet = async () => {
     if (typeof window !== "undefined") {
       try {
@@ -102,7 +78,9 @@ export default function Home() {
       await checkCorrectNetwork();
     };
 
-    fetchData();
+    if (window.ethereum) {
+      fetchData();
+    }
     setIsLoading(false);
   }, []);
 
@@ -139,22 +117,47 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto text-white">
-      {!correctNetwork && (
-        <ConnectWalletAlert
-          connectWallet={connectMetamask}
-          isOpen={networkAlert}
-          setIsOpen={setNetworkAlert}
-        />
+    <>
+      {!window.ethereum ? (
+        <div className="h-screen w-screen flex items-center justify-center">
+          <Card>
+            <CardHeader className="text-center font-semibold">Alert</CardHeader>
+            <CardContent>
+              <p>
+                You need to install
+                <a
+                  href="https://metamask.io/download"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-blue-500"
+                >
+                  {" "}
+                  Metamask
+                </a>{" "}
+                to use this app
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto text-white">
+          {!correctNetwork && (
+            <ConnectWalletAlert
+              connectWallet={connectMetamask}
+              isOpen={networkAlert}
+              setIsOpen={setNetworkAlert}
+            />
+          )}
+          <Sidebar
+            connectMetamask={connectMetamask}
+            correctNetwork={correctNetwork}
+            account={currentAccount}
+            balance={balance}
+          />
+          <Feed />
+          <Widget />
+        </main>
       )}
-      <Sidebar
-        connectMetamask={connectMetamask}
-        correctNetwork={correctNetwork}
-        account={currentAccount}
-        balance={balance}
-      />
-      <Feed />
-      <Widget />
-    </main>
+    </>
   );
 }
