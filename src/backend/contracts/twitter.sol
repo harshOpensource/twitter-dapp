@@ -6,12 +6,17 @@ contract twitter {
 
     event AddTweet(address recipient, uint tweetId);
     event DeleteTweet(uint tweetId, bool isDeleted);
+    event ToggleLike(uint tweetId, bool isLiked, uint likeCount);
+
 
     struct Tweet {
         uint id;
         address username;
         string tweetText;
         bool isDeleted;
+        uint256 likeCount;
+        bool isLiked;
+        uint256 timestamp;
     }
 
     Tweet[] private tweets;
@@ -20,9 +25,9 @@ contract twitter {
     mapping(uint256 => address) tweetToOwner;
 
     // Method to be called by our frontend when trying to add a new Tweet
-    function addTweet(string memory tweetText, bool isDeleted) external {
+    function addTweet(string memory tweetText, bool isDeleted, uint256 likeCount, bool isLiked) external {
         uint tweetId = tweets.length;
-        tweets.push(Tweet(tweetId, msg.sender, tweetText, isDeleted));
+        tweets.push(Tweet(tweetId, msg.sender, tweetText, isDeleted, likeCount , isLiked, block.timestamp));
         tweetToOwner[tweetId] = msg.sender;
         emit AddTweet(msg.sender, tweetId);
     }
@@ -41,6 +46,8 @@ contract twitter {
         Tweet[] memory result = new Tweet[](counter);
         for(uint i=0; i<counter; i++) {
             result[i] = temporary[i];
+            result[i].isLiked = tweets[temporary[i].id].isLiked;
+            result[i].likeCount = tweets[temporary[i].id].likeCount;
         }
         return result;
     }
@@ -59,6 +66,8 @@ contract twitter {
         Tweet[] memory result = new Tweet[](counter);
         for(uint i=0; i<counter; i++) {
             result[i] = temporary[i];
+            result[i].isLiked = tweets[temporary[i].id].isLiked;
+            result[i].likeCount = tweets[temporary[i].id].likeCount;
         }
         return result;
     }
@@ -69,6 +78,17 @@ contract twitter {
             tweets[tweetId].isDeleted = isDeleted;
             emit DeleteTweet(tweetId, isDeleted);
         }
+    }
+
+      function toggleLike(uint tweetId) external {
+        Tweet storage tweet = tweets[tweetId];
+        tweet.isLiked = !tweet.isLiked;
+        if(tweet.isLiked) {
+            tweet.likeCount++;
+        } else {
+            tweet.likeCount--;
+        }
+        emit ToggleLike(tweetId, tweet.isLiked, tweet.likeCount);
     }
 
 }

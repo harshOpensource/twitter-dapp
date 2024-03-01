@@ -2,7 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 
 // Go to https://infura.io, sign up, create a new API key
 // in its dashboard, and replace "KEY" with it
-const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
+const INFURA_API_KEY = "4bebe91367494d9ea22c0c1b13b96fcd";
 
 // Replace this private key with your Sepolia account private key
 // To export your private key from Coinbase Wallet, go to
@@ -10,7 +10,8 @@ const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
 // Beware: NEVER put real Ether into testing accounts
-const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY || "";
+const SEPOLIA_PRIVATE_KEY =
+  "8d93cfcd9132485c6e139aad63165df369040dd80cfc7f9fa64d19057a0487ae";
 
 module.exports = {
   solidity: "0.8.24",
@@ -21,5 +22,3 @@ module.exports = {
     },
   },
 };
-
-/* deployed address: 0xb02e7e27494069808f599192bd6cf63a9c052e86 */
