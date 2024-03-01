@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ChartBarIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -5,17 +7,30 @@ import {
   HeartIcon,
   ShareIcon,
 } from "@heroicons/react/24/outline";
+import {
+  HeartIcon as HeartIconFilled,
+  ChatBubbleOvalLeftIcon as ChatIconFilled,
+} from "@heroicons/react/24/solid";
 import Moment from "react-moment";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Trash } from "lucide-react";
 import { Comment } from "@/lib/types";
+import { BigNumber } from "ethers";
+import { useState } from "react";
 
 interface Props {
   comment: Comment;
   id: string;
+  deleteTweet: (commentId: string) => void;
+  likeTweet: (commentId: string) => void;
 }
 
-function Comment({ comment, id }: Props) {
+function Comment({ comment, id, deleteTweet, likeTweet }: Props) {
+  const [liked, setLiked] = useState(comment?.isLiked);
+
+  const likeCountNumber =
+    comment?.likeCount instanceof BigNumber ? comment.likeCount.toNumber() : 0;
+
   return (
     <div className="p-3 flex cursor-pointer border-b border-t border-gray-700">
       <Avatar className="mr-4">
@@ -51,22 +66,35 @@ function Comment({ comment, id }: Props) {
           <div className="icon group">
             <ChatBubbleOvalLeftEllipsisIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
-
-          <div className="flex items-center space-x-1 group">
-            <div className="icon group-hover:bg-pink-600/10">
+          <div
+            className="icon group-hover:bg-pink-600/10"
+            onClick={() => likeTweet(comment.id)}
+          >
+            {liked ? (
+              <HeartIconFilled className="h-5 text-pink-600" />
+            ) : (
               <HeartIcon className="h-5 group-hover:text-pink-600 text-emerald-500" />
-            </div>
-            <span className="group-hover:text-pink-600 text-sm">
-              {comment?.likesCount?.toNumber() || 0}
-            </span>
+            )}
           </div>
+          {likeCountNumber > 0 && (
+            <span
+              className={`group-hover:text-pink-600 text-sm ${
+                liked && "text-pink-600"
+              }`}
+            >
+              {likeCountNumber}
+            </span>
+          )}
 
           <div className="icon group">
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
-          <div className="icon group">
+          <button
+            className="icon group"
+            onClick={() => deleteTweet(comment.id)}
+          >
             <Trash className="h-5 group-hover:text-pink-600 text-emerald-500" />
-          </div>
+          </button>
         </div>
       </div>
     </div>

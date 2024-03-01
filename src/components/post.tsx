@@ -18,6 +18,7 @@ import { useState } from "react";
 import Moment from "react-moment";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import moment from "moment";
+import { BigNumber } from "ethers";
 
 type Props = {
   id: string;
@@ -39,8 +40,9 @@ export const Post = ({
   const router = useRouter();
 
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState(post?.likeCount?.toNumber());
   const [liked, setLiked] = useState(post?.isLiked);
+  const likeCountNumber =
+    post?.likeCount instanceof BigNumber ? post.likeCount.toNumber() : 0;
 
   return (
     <div
@@ -76,7 +78,9 @@ export const Post = ({
             </div>
             <span className="hover:underline text-sm sm:text-[15px] ml-5">
               <Moment fromNow>
-                {new Date(post?.timestamp?.toNumber() * 1000)}
+                {post?.timestamp
+                  ? new Date(post?.timestamp?.toNumber() * 1000)
+                  : new Date()}
               </Moment>
             </span>
             {!postPage && (
@@ -154,13 +158,13 @@ export const Post = ({
                 <HeartIcon className="h-5 group-hover:text-pink-600 text-emerald-500" />
               )}
             </div>
-            {likes > 0 && (
+            {likeCountNumber > 0 && (
               <span
                 className={`group-hover:text-pink-600 text-sm ${
                   liked && "text-pink-600"
                 }`}
               >
-                {likes}
+                {likeCountNumber}
               </span>
             )}
           </div>

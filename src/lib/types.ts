@@ -27,7 +27,7 @@ export interface Comment {
   commenter: string;
   commentText: string;
   isDeleted: boolean;
-  likesCount: number | any;
+  likeCount: number | any;
   isLiked: boolean;
   timestamp: Date | any;
 }

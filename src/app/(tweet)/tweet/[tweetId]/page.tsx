@@ -3,7 +3,7 @@
 import Feed from "@/components/Feed";
 import { Post } from "@/components/post";
 import { contract_address } from "@/lib/utils";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Twitter from "@/lib/twitter-contract.json";
@@ -33,8 +33,54 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
   const [currentAccount, setCurrentAccount] = useState<string>("");
   const [input, setInput] = useState<string>("");
 
-  const deleteTweet = () => {};
-  const likeTweet = () => {};
+  const deleteTweet = async (commentId: string) => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const TwitterContract = new ethers.Contract(
+          contract_address,
+          Twitter.abi,
+          signer
+        );
+
+        let deleteTweetTx = await TwitterContract.deleteComment(
+          params.tweetId,
+          commentId,
+          false
+        );
+      } else {
+        console.log("Ethereum object doesn't exist");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
+
+  const likeTweet = async (commentId: string) => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const TwitterContract = new ethers.Contract(
+          contract_address,
+          Twitter.abi,
+          signer
+        );
+
+        await TwitterContract.toggleCommentLike(params.tweetId, commentId);
+      } else {
+        console.log("Ethereum object doesn't exist");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const connectWallet = async () => {
     if (typeof window !== "undefined") {
@@ -101,6 +147,7 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
       connectWallet();
     }
     getTweetWithCommentsByTweetId();
+    setIsLoading(false);
   }, []);
 
   const sendComment = async () => {
@@ -131,6 +178,14 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
       console.log("Error submitting new Tweet", error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loader2 className="animate-spin h-10 w-10 text-gray-500" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -174,7 +229,13 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
           {comments.length > 0 && (
             <div className="pb-72">
               {comments.map((comment: ComentType) => (
-                <Comment key={comment.id} id={comment.id} comment={comment} />
+                <Comment
+                  key={comment.id}
+                  id={comment.id}
+                  comment={comment}
+                  deleteTweet={deleteTweet}
+                  likeTweet={likeTweet}
+                />
               ))}
             </div>
           )}
