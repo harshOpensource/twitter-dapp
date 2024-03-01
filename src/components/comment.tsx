@@ -7,8 +7,15 @@ import {
 } from "@heroicons/react/24/outline";
 import Moment from "react-moment";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Trash } from "lucide-react";
+import { Comment } from "@/lib/types";
 
-function Comment({ comment }: any) {
+interface Props {
+  comment: Comment;
+  id: string;
+}
+
+function Comment({ comment, id }: Props) {
   return (
     <div className="p-3 flex cursor-pointer border-b border-t border-gray-700">
       <Avatar className="mr-4">
@@ -36,27 +43,29 @@ function Comment({ comment }: any) {
             </p>
           </div>
           <div className="icon group flex-shrink-0">
-            <ChatBubbleOvalLeftEllipsisIcon className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
+            <EllipsisHorizontalIcon className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
           </div>
         </div>
 
         <div className="text-[#6e767d] flex justify-between w-10/12">
           <div className="icon group">
-            <EllipsisHorizontalIcon className="h-5 group-hover:text-[#1d9bf0]" />
+            <ChatBubbleOvalLeftEllipsisIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
 
           <div className="flex items-center space-x-1 group">
             <div className="icon group-hover:bg-pink-600/10">
-              <HeartIcon className="h-5 group-hover:text-pink-600" />
+              <HeartIcon className="h-5 group-hover:text-pink-600 text-emerald-500" />
             </div>
-            <span className="group-hover:text-pink-600 text-sm"></span>
+            <span className="group-hover:text-pink-600 text-sm">
+              {comment?.likesCount?.toNumber() || 0}
+            </span>
           </div>
 
           <div className="icon group">
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
           <div className="icon group">
-            <ChartBarIcon className="h-5 group-hover:text-[#1d9bf0]" />
+            <Trash className="h-5 group-hover:text-pink-600 text-emerald-500" />
           </div>
         </div>
       </div>

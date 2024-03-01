@@ -12,7 +12,6 @@ import data from "@emoji-mart/data";
 import { v4 as uuidv4 } from "uuid";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import EmojiPicker from "@emoji-mart/react";
-import Image from "next/image";
 import Twitter from "@/lib/twitter-contract.json";
 import { contract_address } from "@/lib/utils";
 import { ethers } from "ethers";
@@ -20,9 +19,9 @@ import { ethers } from "ethers";
 type Props = {};
 
 function Input({}: Props) {
-  const [input, setInput] = useState("");
-  const [showEmojis, setShowEmojis] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState<string>("");
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef: any = useRef(null);
 
@@ -72,9 +71,6 @@ function Input({}: Props) {
           tweet.likeCount,
           tweet.isLiked
         );
-
-        console.log(twitterTx);
-        location.reload();
       } else {
         console.log("Ethereum object doesn't exist!");
       }

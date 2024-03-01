@@ -10,6 +10,7 @@ import Twitter from "@/lib/twitter-contract.json";
 import { ethers } from "ethers";
 import Comment from "@/components/comment";
 import { v4 as uuidv4 } from "uuid";
+import { Comment as ComentType, Tweet } from "@/lib/types";
 
 interface TweetIdProps {
   params: {
@@ -18,11 +19,19 @@ interface TweetIdProps {
 }
 const TweetIdPage = ({ params }: TweetIdProps) => {
   const router = useRouter();
-  const [post, setPost] = useState<any>({});
-  const [comments, setComments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentAccount, setCurrentAccount] = useState("");
-  const [input, setInput] = useState("");
+  const [post, setPost] = useState<Tweet>({
+    id: "",
+    tweetText: "",
+    username: "",
+    isDeleted: false,
+    isLiked: false,
+    likeCount: 0,
+    timestamp: 0,
+  });
+  const [comments, setComments] = useState<ComentType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [currentAccount, setCurrentAccount] = useState<string>("");
+  const [input, setInput] = useState<string>("");
 
   const deleteTweet = () => {};
   const likeTweet = () => {};
@@ -78,7 +87,6 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
         );
         setPost(tweet[0]);
         setComments(commentss);
-        console.log(commentss, "hellos");
       } else {
         console.log("Ethereum object doesn't exist");
       }
@@ -165,7 +173,7 @@ const TweetIdPage = ({ params }: TweetIdProps) => {
           </div>
           {comments.length > 0 && (
             <div className="pb-72">
-              {comments.map((comment: any) => (
+              {comments.map((comment: ComentType) => (
                 <Comment key={comment.id} id={comment.id} comment={comment} />
               ))}
             </div>

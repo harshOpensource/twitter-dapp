@@ -10,3 +10,24 @@ export interface FollowResult {
   username: string;
   tag: string;
 }
+
+export type Tweet = {
+  id: string;
+  username: string;
+  tweetText: string;
+  isDeleted: boolean;
+  likeCount: number;
+  isLiked: boolean;
+  timestamp: number;
+};
+
+export interface Comment {
+  id: string;
+  tweetId: string;
+  commenter: string;
+  commentText: string;
+  isDeleted: boolean;
+  likesCount: number | any;
+  isLiked: boolean;
+  timestamp: Date | any;
+}

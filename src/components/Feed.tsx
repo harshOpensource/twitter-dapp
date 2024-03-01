@@ -8,12 +8,13 @@ import { ethers } from "ethers";
 import { contract_address } from "@/lib/utils";
 import Twitter from "@/lib/twitter-contract.json";
 import { Loader2 } from "lucide-react";
+import { Tweet } from "@/lib/types";
 
 type Props = {};
 
 function Feed({}: Props) {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState<Tweet[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getUpdatedTweets: any = (allTweets: any, address: any) => {
     let updatedTweets = [];
@@ -143,7 +144,7 @@ function Feed({}: Props) {
           </div>
         ) : (
           <>
-            {posts.map((post: any) => (
+            {posts.map((post: Tweet) => (
               <Post
                 key={post.id}
                 id={post.id}

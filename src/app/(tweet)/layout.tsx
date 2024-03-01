@@ -15,11 +15,11 @@ type Props = {
 };
 
 function tweetLayout({ children }: Props) {
-  const [currentAccount, setCurrentAccount] = useState("");
-  const [correctNetwork, setCorrectNetwork] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [networkAlert, setNetworkAlert] = useState(true);
-  const [balance, setBalance] = useState("");
+  const [currentAccount, setCurrentAccount] = useState<string>("");
+  const [correctNetwork, setCorrectNetwork] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [networkAlert, setNetworkAlert] = useState<boolean>(true);
+  const [balance, setBalance] = useState<string>("");
 
   const connectWallet = async () => {
     if (typeof window !== "undefined") {
