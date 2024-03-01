@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -121,8 +122,15 @@ export default function Home() {
       {!window.ethereum ? (
         <div className="h-screen w-screen flex items-center justify-center">
           <Card>
-            <CardHeader className="text-center font-semibold">Alert</CardHeader>
-            <CardContent>
+            <CardHeader className="w-full flex items-center">
+              <Image
+                src={"/logo.png"}
+                alt="logo alert"
+                width={40}
+                height={40}
+              />
+            </CardHeader>
+            <CardContent className="text-lg">
               <p>
                 You need to install
                 <a
