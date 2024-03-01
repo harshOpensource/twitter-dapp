@@ -9,7 +9,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import data from "@emoji-mart/data";
-
+import { v4 as uuidv4 } from "uuid";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import EmojiPicker from "@emoji-mart/react";
 import Image from "next/image";
@@ -45,9 +45,9 @@ function Input({}: Props) {
     setInput(input + emoji);
   };
 
-  /* DEPLOYED_ADDRESS */
   const sendPost = async () => {
     let tweet = {
+      id: uuidv4(),
       tweetText: input.toString(),
       isDeleted: false,
       isLiked: false,
@@ -66,6 +66,7 @@ function Input({}: Props) {
         );
 
         let twitterTx = await TwitterContract.addTweet(
+          tweet.id,
           tweet.tweetText,
           tweet.isDeleted,
           tweet.likeCount,

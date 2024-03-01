@@ -120,6 +120,7 @@ function tweetLayout({ children }: Props) {
       console.log("window is undefined");
     }
   };
+
   return (
     <>
       {!window.ethereum ? (

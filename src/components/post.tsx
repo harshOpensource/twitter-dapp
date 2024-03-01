@@ -25,14 +25,22 @@ type Props = {
   postPage?: any;
   deleteTweet: any;
   likeTweet: any;
+  account?: string;
 };
 
-export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
+export const Post = ({
+  id,
+  post,
+  postPage,
+  deleteTweet,
+  likeTweet,
+  account,
+}: Props) => {
   const router = useRouter();
 
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState(post.likeCount.toNumber());
-  const [liked, setLiked] = useState(post.isLiked);
+  const [likes, setLikes] = useState(post?.likeCount?.toNumber());
+  const [liked, setLiked] = useState(post?.isLiked);
 
   return (
     <div
@@ -62,12 +70,13 @@ export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
                   !postPage && "inline-block"
                 }`}
               >
-                @ {post?.username.slice(0, 8)}...{post?.username.slice(-8, -1)}
+                @ {post?.username?.slice(0, 8)}...
+                {post?.username?.slice(-8, -1)}
               </h4>
             </div>
             <span className="hover:underline text-sm sm:text-[15px] ml-5">
               <Moment fromNow>
-                {new Date(post.timestamp.toNumber() * 1000)}
+                {new Date(post?.timestamp?.toNumber() * 1000)}
               </Moment>
             </span>
             {!postPage && (
@@ -110,19 +119,20 @@ export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
               </span>
             )}
           </div>
-          {post.personal && (
-            <div className="flex items-center space-x-1 group">
-              <div
-                className="icon group-hover:bg-red-600/10"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteTweet(post.id);
-                }}
-              >
-                <TrashIcon className="h-5 group-hover:text-red-600 text-emerald-500" />
+          {post.username === account?.toString() ||
+            (post.personal && (
+              <div className="flex items-center space-x-1 group">
+                <div
+                  className="icon group-hover:bg-red-600/10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTweet(post.id);
+                  }}
+                >
+                  <TrashIcon className="h-5 group-hover:text-red-600 text-emerald-500" />
+                </div>
               </div>
-            </div>
-          )}
+            ))}
 
           <div className="flex items-center space-x-1 group">
             <div className="icon group-hover:bg-green-500/10">
