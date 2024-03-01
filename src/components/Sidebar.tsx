@@ -71,7 +71,7 @@ const Sidebar = ({
             {correctNetwork ? <>{balance} SepoliaETH</> : <>0.00 ETH</>}
           </p>
         </div>
-        <EllipsisVerticalIcon className="h-5 hidden xl:inline ml-10" />
+        <EllipsisVerticalIcon className="h-5 hidden xl:inline ml-2" />
       </div>
     </div>
   );

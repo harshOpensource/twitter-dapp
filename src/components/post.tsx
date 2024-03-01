@@ -110,18 +110,20 @@ export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
               </span>
             )}
           </div>
-
-          <div className="flex items-center space-x-1 group">
-            <div
-              className="icon group-hover:bg-red-600/10"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteTweet(post.id);
-              }}
-            >
-              <TrashIcon className="h-5 group-hover:text-red-600 text-emerald-500" />
+          {post.personal && (
+            <div className="flex items-center space-x-1 group">
+              <div
+                className="icon group-hover:bg-red-600/10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteTweet(post.id);
+                }}
+              >
+                <TrashIcon className="h-5 group-hover:text-red-600 text-emerald-500" />
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="flex items-center space-x-1 group">
             <div className="icon group-hover:bg-green-500/10">
               <ArrowsRightLeftIcon className="h-5 group-hover:text-pink-600" />
