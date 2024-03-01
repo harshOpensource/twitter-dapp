@@ -7,6 +7,14 @@ const font = Poppins({ subsets: ["latin"], weight: ["300"] });
 export const metadata: Metadata = {
   title: "Twitter: A Decentralized Social Media Platform",
   description: "Twitter: A Decentralized Social Media Platform",
+  icons: {
+    icon: [
+      {
+        href: "/logo.png",
+        url: "/logo.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
