@@ -13,6 +13,7 @@ import {
 import { HomeIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import SidebarItem from "./sidebar-item";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type Props = {
   account: string;
@@ -51,15 +52,12 @@ const Sidebar = ({
           !correctNetwork && connectMetamask();
         }}
       >
-        <Image
-          className="mr-4"
-          src="/ethereum-blue.svg"
-          width={30}
-          height={30}
-          alt="logo avatar"
-        />
+        <Avatar>
+          <AvatarImage src={""} alt="img-url" />
+          <AvatarFallback>SN</AvatarFallback>
+        </Avatar>
 
-        <div className="hidden xl:inline leading-5">
+        <div className="hidden xl:inline leading-5 ml-4">
           <h4 className="font-bold">
             {account.length > 10 ? (
               <>
