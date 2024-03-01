@@ -7,6 +7,7 @@ import ConnectWalletAlert from "@/components/connect-alert";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -14,6 +15,30 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [networkAlert, setNetworkAlert] = useState(true);
   const [balance, setBalance] = useState("");
+
+  if (!window.ethereum) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        <Card>
+          <CardHeader className="text-center font-semibold">Alert</CardHeader>
+          <CardContent>
+            <p>
+              You need to install{" "}
+              <a
+                href="https://metamask.io/download"
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-500"
+              >
+                Metamask
+              </a>
+              to use this app
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const connectWallet = async () => {
     if (typeof window !== "undefined") {
