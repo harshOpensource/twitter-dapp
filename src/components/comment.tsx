@@ -27,7 +27,9 @@ function Comment({ comment }: any) {
             </div>{" "}
             ·{" "}
             <span className="hover:underline text-sm sm:text-[15px]">
-              <Moment fromNow>{comment?.timestamp?.toDate()}</Moment>
+              <Moment fromNow>
+                {new Date(comment?.timestamp?.toNumber() * 1000)}
+              </Moment>
             </span>
             <p className="text-[#d9d9d9] mt-0.5 max-w-lg overflow-scroll scrollbar-hide text-[15px] sm:text-base">
               {comment?.commentText}
