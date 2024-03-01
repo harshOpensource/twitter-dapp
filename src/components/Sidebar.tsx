@@ -63,7 +63,7 @@ const Sidebar = ({
           <h4 className="font-bold">
             {account.length > 10 ? (
               <>
-                {account.slice(0, 6)}...{account.slice(-6, -1)}
+                {account.slice(0, 8)}...{account.slice(-8, -1)}
               </>
             ) : (
               <>Connect Wallet</>

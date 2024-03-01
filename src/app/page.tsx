@@ -41,7 +41,7 @@ export default function Home() {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const balance = await provider.getBalance(accounts[0]);
         const balanceInEth = ethers.utils.formatEther(balance);
-        setBalance(balanceInEth);
+        setBalance(balanceInEth.slice(0, 8));
 
         setIsLoading(false);
       } catch (error) {
