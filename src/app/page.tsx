@@ -18,7 +18,7 @@ export default function Home() {
   const connectWallet = async () => {
     if (typeof window !== "undefined") {
       try {
-        const { ethereum }: any = window;
+        const { ethereum } = window;
 
         if (!ethereum) {
           return;
@@ -91,7 +91,7 @@ export default function Home() {
 
   const connectMetamask = async () => {
     if (typeof window !== "undefined") {
-      const { ethereum }: any = window;
+      const { ethereum } = window;
 
       if (typeof ethereum !== "undefined") {
         try {
