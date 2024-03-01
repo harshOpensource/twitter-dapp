@@ -38,7 +38,7 @@ export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
     <div
       key={id}
       className="p-3 flex cursor-pointer border-b border-gray-700"
-      onClick={() => router.push(`/${id}`)}
+      onClick={() => router.push(`/tweet/${id}`)}
     >
       {!postPage && (
         <Avatar className="mr-4">

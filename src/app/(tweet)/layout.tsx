@@ -10,7 +10,11 @@ import { ethers } from "ethers";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 
-export default function Home() {
+type Props = {
+  children: React.ReactNode;
+};
+
+function tweetLayout({ children }: Props) {
   const [currentAccount, setCurrentAccount] = useState("");
   const [correctNetwork, setCorrectNetwork] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -116,7 +120,6 @@ export default function Home() {
       console.log("window is undefined");
     }
   };
-
   return (
     <>
       {!window.ethereum ? (
@@ -162,10 +165,12 @@ export default function Home() {
             account={currentAccount}
             balance={balance}
           />
-          <Feed />
+          {children}
           <Widget />
         </main>
       )}
     </>
   );
 }
+
+export default tweetLayout;
