@@ -17,22 +17,23 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Moment from "react-moment";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import moment from "moment";
 
 type Props = {
   id: string;
   post: any;
   postPage?: any;
   deleteTweet: any;
+  likeTweet: any;
 };
 
-export const Post = ({ id, post, postPage, deleteTweet }: Props) => {
+export const Post = ({ id, post, postPage, deleteTweet, likeTweet }: Props) => {
   const router = useRouter();
 
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState([]);
-  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(post.likeCount.toNumber());
+  const [liked, setLiked] = useState(post.isLiked);
 
-  const likePost = async () => {};
   return (
     <div
       key={id}
@@ -65,7 +66,9 @@ export const Post = ({ id, post, postPage, deleteTweet }: Props) => {
               </h4>
             </div>
             <span className="hover:underline text-sm sm:text-[15px] ml-5">
-              <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
+              <Moment fromNow>
+                {new Date(post.timestamp.toNumber() * 1000)}
+              </Moment>
             </span>
             {!postPage && (
               <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">
@@ -116,12 +119,12 @@ export const Post = ({ id, post, postPage, deleteTweet }: Props) => {
                 deleteTweet(post.id);
               }}
             >
-              <TrashIcon className="h-5 group-hover:text-red-600" />
+              <TrashIcon className="h-5 group-hover:text-red-600 text-emerald-500" />
             </div>
           </div>
           <div className="flex items-center space-x-1 group">
             <div className="icon group-hover:bg-green-500/10">
-              <ArrowsRightLeftIcon className="h-5 group-hover:text-green-500" />
+              <ArrowsRightLeftIcon className="h-5 group-hover:text-pink-600" />
             </div>
           </div>
 
@@ -129,23 +132,23 @@ export const Post = ({ id, post, postPage, deleteTweet }: Props) => {
             className="flex items-center space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
-              likePost();
+              likeTweet(post.id);
             }}
           >
             <div className="icon group-hover:bg-pink-600/10">
               {liked ? (
                 <HeartIconFilled className="h-5 text-pink-600" />
               ) : (
-                <HeartIcon className="h-5 group-hover:text-pink-600" />
+                <HeartIcon className="h-5 group-hover:text-pink-600 text-emerald-500" />
               )}
             </div>
-            {likes.length > 0 && (
+            {likes > 0 && (
               <span
                 className={`group-hover:text-pink-600 text-sm ${
                   liked && "text-pink-600"
                 }`}
               >
-                {likes.length}
+                {likes}
               </span>
             )}
           </div>

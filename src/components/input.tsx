@@ -50,6 +50,8 @@ function Input({}: Props) {
     let tweet = {
       tweetText: input.toString(),
       isDeleted: false,
+      isLiked: false,
+      likeCount: 0,
     };
     try {
       const { ethereum } = window;
@@ -65,7 +67,9 @@ function Input({}: Props) {
 
         let twitterTx = await TwitterContract.addTweet(
           tweet.tweetText,
-          tweet.isDeleted
+          tweet.isDeleted,
+          tweet.likeCount,
+          tweet.isLiked
         );
 
         console.log(twitterTx);
@@ -94,7 +98,7 @@ function Input({}: Props) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="What's happening?"
-            rows={4}
+            rows={3}
             className="bg-transparent scrollbar-hide outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[50px]"
           />
           {selectedFile && (
