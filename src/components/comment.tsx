@@ -71,20 +71,22 @@ function Comment({ comment, id, deleteTweet, likeTweet }: Props) {
             onClick={() => likeTweet(comment.id)}
           >
             {liked ? (
-              <HeartIconFilled className="h-5 text-pink-600" />
+              <>
+                <HeartIconFilled className="h-5 text-pink-600 mr-2" />
+                {likeCountNumber > 0 && (
+                  <span
+                    className={`group-hover:text-pink-600 text-sm ${
+                      liked && "text-pink-600"
+                    }`}
+                  >
+                    {likeCountNumber}
+                  </span>
+                )}
+              </>
             ) : (
               <HeartIcon className="h-5 group-hover:text-pink-600 text-emerald-500" />
             )}
           </div>
-          {likeCountNumber > 0 && (
-            <span
-              className={`group-hover:text-pink-600 text-sm ${
-                liked && "text-pink-600"
-              }`}
-            >
-              {likeCountNumber}
-            </span>
-          )}
 
           <div className="icon group">
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />

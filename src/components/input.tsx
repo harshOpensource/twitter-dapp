@@ -153,7 +153,7 @@ function Input({}: Props) {
             Tweet
           </button>
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 }
