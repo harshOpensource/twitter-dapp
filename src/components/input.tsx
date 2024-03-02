@@ -8,13 +8,14 @@ import {
   PhotoIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import data from "@emoji-mart/data";
 import { v4 as uuidv4 } from "uuid";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import EmojiPicker from "@emoji-mart/react";
 import Twitter from "@/lib/twitter-contract.json";
 import { contract_address } from "@/lib/utils";
 import { ethers } from "ethers";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type Props = {};
 
@@ -34,14 +35,6 @@ function Input({}: Props) {
         setSelectedFile(reader.result);
       };
     }
-  };
-
-  const addEmoji = (e: any) => {
-    let sym = e.unified.split("-");
-    let codesArray: any[] = [];
-    sym.forEach((el: any) => codesArray.push("0x" + el));
-    let emoji = String.fromCodePoint(...codesArray);
-    setInput(input + emoji);
   };
 
   const sendPost = async () => {
@@ -130,27 +123,27 @@ function Input({}: Props) {
               <ChartBarIcon className="text-[#1d9bf0] h-[22px]" />
             </div>
 
-            <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
-              <FaceSmileIcon className="text-[#1d9bf0] h-[22px]" />
-            </div>
+            <Popover>
+              <PopoverTrigger>
+                <div className="icon">
+                  <FaceSmileIcon className="text-[#1d9bf0] h-[22px]" />
+                </div>
+              </PopoverTrigger>
+              <PopoverContent
+                side="right"
+                sideOffset={40}
+                className="bg-transparent border-none shadow-none drop-shadow-none mb-16 mt-52"
+              >
+                <Picker
+                  data={data}
+                  onEmojiSelect={(emoji: any) => setInput(input + emoji.native)}
+                />
+              </PopoverContent>
+            </Popover>
 
             <div className="icon">
               <CalendarIcon className="text-[#1d9bf0] h-[22px]" />
             </div>
-            {showEmojis && (
-              <EmojiPicker
-                data={data}
-                style={{
-                  position: "absolute",
-                  marginTop: "465px",
-                  marginLeft: -40,
-                  maxWidth: "320px",
-                  borderRadius: "20px",
-                }}
-                theme="dark"
-                onSelect={addEmoji}
-              />
-            )}
           </div>
           <button
             className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
@@ -160,7 +153,7 @@ function Input({}: Props) {
             Tweet
           </button>
         </div>
-      </div>
+      </div>{" "}
     </div>
   );
 }
