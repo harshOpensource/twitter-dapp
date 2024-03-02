@@ -38,7 +38,7 @@ function ConnectWalletAlert({ isOpen, setIsOpen, connectWallet }: Props) {
             Cancel
           </Button>
           <Button
-            className="rounded-md"
+            className="rounded-md text-gray-900 font-semibold"
             variant={"default"}
             onClick={connectWallet}
           >

@@ -72,7 +72,7 @@ export const Post = ({
                   !postPage && "inline-block"
                 }`}
               >
-                @ {post?.username?.slice(0, 8)}...
+                {post?.username && "@"} {post?.username?.slice(0, 8)}...
                 {post?.username?.slice(-8, -1)}
               </h4>
             </div>
