@@ -9,6 +9,7 @@
 - ⭐️ Vercel for Deployment
 - 🌐 Next.js 14 framework
 - 💅 TailwindCSS styling
+- 🤝 Ether.js for integration
 
 ### Prerequisites
 
